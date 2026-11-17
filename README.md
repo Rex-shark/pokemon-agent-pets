@@ -1,5 +1,7 @@
 # 寶可夢牧場（Pokemon Ranch Pets）
 
+**繁體中文** | [English](README.en.md) | [日本語](README.ja.md)
+
 讓 AI coding agent 的工作狀態「看得見」的桌寵，macOS 與 Windows 都能用。
 
 桌面上有一座 3D 等角小島，**每個 Claude Code／Codex session 認養一隻第一代寶可夢**。寵物在牧場裡自由走動，頭上的雲朵泡泡顯示 agent 正在做什麼；等你確認、出錯、做完的時候，用顏色和音效提醒你。同時開好幾個 session 也不用一個個切回去看。

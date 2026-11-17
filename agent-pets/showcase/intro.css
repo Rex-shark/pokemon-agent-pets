@@ -1,0 +1,513 @@
+/* 介紹頁 */
+
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.4fr);
+  gap: 36px;
+  align-items: center;
+  padding-top: 48px;
+  padding-bottom: 24px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--grass-deep);
+}
+
+.hero h1 {
+  margin: 0 0 16px;
+  font-size: clamp(28px, 3.4vw, 40px);
+  line-height: 1.3;
+  letter-spacing: 0.01em;
+}
+
+.lead {
+  margin: 0 0 20px;
+  font-size: 16px;
+  color: var(--ink-soft);
+}
+
+.hero-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+}
+
+.hero-links a {
+  text-decoration: none;
+}
+
+/* ── 活的牧場 ─────────────────────────────────── */
+
+.demo {
+  margin: 0;
+  overflow: hidden;
+}
+
+.demo-stage {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  background: radial-gradient(ellipse at 50% 120%, #d6efc9 0, transparent 60%),
+    linear-gradient(180deg, #cfeaff 0, #eef8ff 70%);
+  overflow: hidden;
+}
+
+#demo-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.demo-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.demo-status {
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  margin: 0;
+  padding: 5px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  font-size: 13px;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.demo-controls {
+  display: grid;
+  gap: 10px;
+  padding: 16px 18px 14px;
+  border-top: 1px solid var(--line);
+}
+
+.control-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.control-label {
+  flex: 0 0 48px;
+  padding-top: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.pet-chip img {
+  width: 22px;
+  height: 22px;
+  margin: -4px 0 -4px -6px;
+  object-fit: contain;
+}
+
+.demo-hint {
+  margin: 2px 0 0;
+  font-size: 12px;
+}
+
+/* ── 區塊 ─────────────────────────────────────── */
+
+.section {
+  padding-top: 56px;
+}
+
+.section h2 {
+  margin: 0 0 4px;
+  font-size: 26px;
+}
+
+.section > p {
+  margin: 0 0 20px;
+}
+
+.small {
+  font-size: 13px;
+}
+
+.flow {
+  list-style: none;
+  margin: 0 0 20px;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  counter-reset: flow;
+}
+
+.flow li {
+  position: relative;
+  padding: 18px 18px 14px;
+}
+
+.flow li:not(:last-child)::after {
+  content: '→';
+  position: absolute;
+  right: -14px;
+  top: 22px;
+  color: var(--grass);
+  font-weight: 700;
+}
+
+.flow-step {
+  display: inline-grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--grass);
+  color: #fff;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.flow h3,
+.life h3,
+.mode h3,
+.dock h3 {
+  margin: 8px 0 6px;
+  font-size: 16px;
+}
+
+.flow p,
+.life p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+
+.table-card {
+  overflow-x: auto;
+}
+
+.events {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.events caption {
+  text-align: left;
+  padding: 14px 18px 6px;
+  font-weight: 700;
+}
+
+.events th,
+.events td {
+  text-align: left;
+  padding: 9px 18px;
+  border-top: 1px solid var(--line);
+  vertical-align: top;
+}
+
+.events th {
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+.events td:first-child {
+  white-space: nowrap;
+}
+
+/* ── 泡泡圖例 ─────────────────────────────────── */
+
+.legend {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.legend-card {
+  display: block;
+  padding: 0 18px 16px;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.legend-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(48, 72, 40, 0.14);
+}
+
+.legend-card:focus-visible {
+  outline: 3px solid rgba(95, 174, 75, 0.45);
+  outline-offset: 2px;
+}
+
+.legend-stage {
+  position: relative;
+  height: 150px;
+  margin: 0 -18px 4px;
+  border-radius: var(--radius) var(--radius) 0 0;
+  background: linear-gradient(180deg, #eef8ff 0, #f6fbf2 70%, var(--grass-soft) 70.5%, var(--grass-soft));
+}
+
+/* 牧場本體的 .pet-ui 原點在頭頂；這裡固定擺在頭像上緣 */
+.legend-anchor {
+  left: 50%;
+  top: 98px;
+}
+
+.legend-icon {
+  position: absolute;
+  left: 50%;
+  top: 98px;
+  width: 46px;
+  height: 46px;
+  transform: translateX(-50%);
+  object-fit: contain;
+}
+
+.legend-icon.missing {
+  visibility: hidden;
+}
+
+.legend-card h3 {
+  margin: 10px 0 4px;
+  font-size: 16px;
+}
+
+.legend-card p {
+  margin: 0 0 8px;
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+
+.legend-sound {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--grass-deep);
+}
+
+/* ── 日常、模式 ─────────────────────────────────── */
+
+.life {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.life article {
+  padding: 16px 18px;
+}
+
+.modes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.mode {
+  padding: 18px;
+}
+
+.mode ul {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+
+/* 模式示意：一個螢幕，牧場在右下角小視窗 或 鋪滿整個螢幕 */
+.mode-pic {
+  position: relative;
+  height: 120px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #7aa7d9, #b8a3d9);
+  overflow: hidden;
+}
+
+.mode-pic .win {
+  position: absolute;
+  left: 12%;
+  top: 14%;
+  width: 46%;
+  height: 52%;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+}
+
+.mode-pic .isle {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 35%, #8fd16f 0 55%, #6fb04f 56% 70%, #a5764b 71%);
+}
+
+.mode-float .isle {
+  right: 5%;
+  bottom: 8%;
+  width: 34%;
+  height: 26%;
+  z-index: 2;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.mode-wall .isle {
+  left: 16%;
+  bottom: 6%;
+  width: 72%;
+  height: 34%;
+  z-index: 0;
+}
+
+.mode-wall .win {
+  z-index: 1;
+}
+
+.dock {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 28px;
+  align-items: center;
+  padding: 20px 24px;
+}
+
+.dock p {
+  margin: 0 0 8px;
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+
+.dock-menu {
+  padding: 5px;
+  border-radius: 10px;
+  background: rgba(246, 246, 246, 0.96);
+  border: 1px solid #d8d8d8;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.16);
+  font-size: 13px;
+}
+
+.dock-menu hr {
+  border: 0;
+  border-top: 1px solid #ddd;
+  margin: 4px 8px;
+}
+
+.dock-item {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  padding: 3px 10px;
+  border-radius: 5px;
+}
+
+.dock-item.off {
+  color: #9a9a9a;
+}
+
+.dock-item.hot {
+  background: #3b82f6;
+  color: #fff;
+}
+
+.dock-sub {
+  position: absolute;
+  left: calc(100% - 4px);
+  top: -5px;
+  min-width: 90px;
+  padding: 5px;
+  border-radius: 10px;
+  background: rgba(246, 246, 246, 0.98);
+  border: 1px solid #d8d8d8;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.16);
+  color: var(--ink);
+  z-index: 3;
+}
+
+.dock-sub .dock-item {
+  background: #3b82f6;
+  color: #fff;
+}
+
+.license {
+  padding: 18px 22px;
+  font-size: 14px;
+}
+
+.license p {
+  margin: 0 0 8px;
+}
+
+.cta {
+  margin: 24px 0 0;
+  text-align: center;
+}
+
+.cta-chip {
+  padding: 10px 22px;
+  font-size: 15px;
+  text-decoration: none;
+  background: var(--grass);
+  border-color: var(--grass);
+  color: #fff;
+}
+
+.cta-chip:hover:not(:disabled) {
+  background: var(--grass-deep);
+  border-color: var(--grass-deep);
+  color: #fff;
+}
+
+@media (max-width: 960px) {
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+    padding-top: 28px;
+  }
+  .flow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .flow li::after {
+    display: none;
+  }
+  .legend,
+  .life {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .flow,
+  .legend,
+  .life,
+  .modes {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .dock {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .dock-sub {
+    left: auto;
+    right: 6px;
+    top: 100%;
+  }
+  .control-row {
+    flex-direction: column;
+    gap: 4px;
+  }
+  .control-label {
+    flex: none;
+    padding: 0;
+  }
+}

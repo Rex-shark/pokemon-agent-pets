@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <title>等角場地預覽</title>
+    <style>
+      html, body { margin: 0; height: 100%; overflow: hidden; font: 14px -apple-system, 'PingFang TC', sans-serif; }
+      body { background: linear-gradient(#9fb8d6, #d9c9b0); background-size: cover; background-position: center; }
+      body.wall { background-image: url('/wallpaper.png'); }
+      canvas { display: block; width: 100vw; height: 100vh; }
+      #panel {
+        position: fixed; left: 16px; top: 44px; padding: 10px 14px; border-radius: 12px;
+        background: rgba(20, 24, 32, 0.62); color: #fff; line-height: 1.6;
+      }
+      #panel b { font-size: 17px; }
+      #panel button {
+        margin: 6px 6px 0 0; padding: 3px 10px; border: 0; border-radius: 6px; background: #ffffffd0; cursor: pointer; font: inherit;
+      }
+      #panel button.on { background: #ffd54a; font-weight: 600; }
+    </style>
+  </head>
+  <body>
+    <div id="panel">
+      <b id="title">等角場地預覽</b><br />
+      <span id="note"></span><br />
+      <button data-v="1">版本 1</button><button data-v="2">版本 2</button><button data-v="3">版本 3</button><button data-v="4">版本 4</button>
+      <button id="spin">轉 90°</button><button id="bg">換背景</button>
+      <div id="lakes">湖形：</div>
+    </div>
+    <canvas id="view"></canvas>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

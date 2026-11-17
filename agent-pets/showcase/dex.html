@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>動作圖鑑</title>
+    <meta name="description" content="寶可夢牧場的 151 隻寶可夢與牠們的動作" />
+  </head>
+  <body class="dex-page">
+    <header class="site-head">
+      <a class="brand" href="/"><span class="brand-mark" aria-hidden="true"></span>寶可夢牧場</a>
+      <nav class="site-nav" aria-label="網站導覽">
+        <a href="/">模組介紹</a>
+        <a href="/dex.html" aria-current="page">動作圖鑑</a>
+      </nav>
+    </header>
+
+    <main class="dex">
+      <aside class="dex-side card" aria-label="寶可夢清單">
+        <div class="dex-search">
+          <input id="dex-q" type="search" placeholder="搜尋名稱或編號，例如「皮卡丘」「25」" autocomplete="off" aria-label="搜尋寶可夢" />
+          <div class="chips" id="dex-filter" role="group" aria-label="篩選">
+            <button class="chip" data-filter="all" aria-pressed="true">全部</button>
+            <button class="chip" data-filter="sleep" aria-pressed="false">會睡覺</button>
+            <button class="chip" data-filter="nosleep" aria-pressed="false">沒有睡覺</button>
+          </div>
+          <p class="dex-count muted" id="dex-count" aria-live="polite"></p>
+        </div>
+        <ul class="dex-list" id="dex-list"></ul>
+      </aside>
+
+      <section class="dex-view card" aria-label="3D 模型">
+        <header class="view-head">
+          <img class="view-icon" id="view-icon" alt="" hidden />
+          <div>
+            <p class="view-no" id="view-no">#000</p>
+            <h1 class="view-name" id="view-name">選一隻寶可夢</h1>
+          </div>
+          <p class="view-badges" id="view-badges"></p>
+        </header>
+
+        <div class="view-stage" id="view-stage">
+          <canvas id="view-canvas" aria-label="3D 模型，可以拖曳旋轉、滾輪縮放"></canvas>
+          <p class="view-status" id="view-status"></p>
+          <p class="view-tip">拖曳旋轉 · 滾輪或雙指縮放 · 右鍵拖曳平移</p>
+        </div>
+
+        <div class="view-actions">
+          <div class="chips" id="view-actions" role="group" aria-label="動作"></div>
+          <div class="view-progress" aria-hidden="true"><span id="view-progress"></span></div>
+          <p class="view-info" id="view-info"></p>
+        </div>
+
+        <div class="view-tools chips" role="group" aria-label="檢視設定">
+          <button class="chip" id="tool-pause" aria-pressed="false">暫停</button>
+          <button class="chip" data-speed="0.5" aria-pressed="false">0.5×</button>
+          <button class="chip" data-speed="1" aria-pressed="true">1×</button>
+          <button class="chip" data-speed="2" aria-pressed="false">2×</button>
+          <button class="chip" id="tool-rotate" aria-pressed="false">自動旋轉</button>
+          <button class="chip" id="tool-reset">重設視角</button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-foot">模型直接從本機的模型資料夾讀，只給自己看 · 鍵盤 1–6 切換動作、空白鍵暫停</footer>
+    <script type="module" src="./dex.ts"></script>
+  </body>
+</html>

@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>火山口湖 設計預覽</title>
+    <meta name="description" content="中央湖改成火山口湖的設計預覽" />
+    <style>
+      :root {
+        font-family: -apple-system, 'PingFang TC', 'Heiti TC', 'Noto Sans TC', sans-serif;
+        color: #2f3a33;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+      }
+      body {
+        background: linear-gradient(180deg, #cfe3f2 0, #eef1ea 100%);
+        transition: background 0.3s;
+      }
+      body[data-variant='active'] {
+        background: linear-gradient(180deg, #2b3040 0, #6b5f63 100%);
+      }
+      #stage {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+      .panel {
+        position: fixed;
+        top: 16px;
+        left: 16px;
+        width: 300px;
+        padding: 16px 18px;
+        background: rgba(255, 255, 255, 0.92);
+        border-radius: 14px;
+        box-shadow: 0 6px 24px rgba(30, 40, 50, 0.18);
+        line-height: 1.6;
+      }
+      .panel h1 {
+        margin: 0 0 2px;
+        font-size: 18px;
+      }
+      .panel .sub {
+        margin: 0 0 12px;
+        font-size: 12px;
+        color: #6a766e;
+      }
+      .variants {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+      .variants button {
+        flex: 1;
+        padding: 8px 0;
+        font: inherit;
+        font-size: 14px;
+        color: inherit;
+        background: #fff;
+        border: 1px solid #d5dbd2;
+        border-radius: 10px;
+        cursor: pointer;
+      }
+      .variants button[aria-pressed='true'] {
+        color: #fff;
+        background: #3d8a33;
+        border-color: #3d8a33;
+      }
+      body[data-variant='active'] .variants button[aria-pressed='true'] {
+        background: #c8482a;
+        border-color: #c8482a;
+      }
+      .sliders {
+        display: grid;
+        grid-template-columns: auto 1fr 2.6em;
+        gap: 4px 8px;
+        align-items: center;
+        margin-bottom: 4px;
+        font-size: 13px;
+      }
+      .sliders input {
+        width: 100%;
+        accent-color: #3d8a33;
+      }
+      body[data-variant='active'] .sliders input {
+        accent-color: #c8482a;
+      }
+      .sliders output {
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+        color: #6a766e;
+      }
+      .panel summary {
+        margin-top: 6px;
+        font-size: 13px;
+        color: #4a564e;
+        cursor: pointer;
+      }
+      .panel h2 {
+        margin: 12px 0 4px;
+        font-size: 13px;
+        color: #4a564e;
+      }
+      .panel ul {
+        margin: 0;
+        padding-left: 18px;
+        font-size: 13px;
+      }
+      .panel li + li {
+        margin-top: 3px;
+      }
+    </style>
+  </head>
+  <body data-variant="active">
+    <canvas id="stage" aria-label="火山口湖的 3D 預覽"></canvas>
+    <aside class="panel">
+      <h1>火山口湖</h1>
+      <p class="sub">設計預覽，只有場景、沒有寶可夢。預設值（活火山、3.6／1.9／1.2）已經做進牧場。</p>
+      <div class="variants" role="group" aria-label="風格">
+        <button data-variant="dormant" aria-pressed="true">休火山</button>
+        <button data-variant="active" aria-pressed="false">活火山</button>
+      </div>
+      <div class="sliders">
+        <label for="size">湖的大小</label>
+        <input id="size" type="range" min="2.4" max="5" step="0.1" value="3.6" />
+        <output id="size-value"></output>
+        <label for="lift">火山高度</label>
+        <input id="lift" type="range" min="0" max="2.6" step="0.1" value="1.9" />
+        <output id="lift-value"></output>
+        <label for="back">往後移</label>
+        <input id="back" type="range" min="0" max="2.6" step="0.1" value="1.2" />
+        <output id="back-value"></output>
+      </div>
+      <details>
+        <summary>設計說明</summary>
+        <h2 id="look-title"></h2>
+      <ul id="look-notes"></ul>
+      <h2>兩種風格都一樣的地方</h2>
+      <ul>
+        <li>整座火山隆起，火口湖在山頂。高度拉到 0 就是平地上的火口湖。</li>
+        <li>湖越大、火山越高，山腳佔的地方越多，前面的平地越少。</li>
+        <li>火山可以往後移，前面留平地給寶可夢活動；湖太大時移不了那麼遠（湖不能超出小島）。</li>
+        <li>火口緣後面高、前面矮，從前面看得到湖；正前方和左邊各有一個缺口。</li>
+      </ul>
+      </details>
+    </aside>
+    <script type="module" src="./crater.ts"></script>
+  </body>
+</html>

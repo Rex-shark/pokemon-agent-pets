@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>寶可夢牧場</title>
+    <meta name="description" content="agent-pets 的寶可夢牧場桌寵：每個 Claude Code session 認養一隻寶可夢" />
+  </head>
+  <body>
+    <header class="site-head">
+      <a class="brand" href="/"><span class="brand-mark" aria-hidden="true"></span>寶可夢牧場</a>
+      <nav class="site-nav" aria-label="網站導覽">
+        <a href="/" aria-current="page">模組介紹</a>
+        <a href="/dex.html">動作圖鑑</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero wrap">
+        <div class="hero-copy">
+          <p class="eyebrow">agent-pets · 第三個桌寵</p>
+          <h1>每個 Claude session，<br />都有一隻寶可夢在牧場上陪你。</h1>
+          <p class="lead">
+            桌面上一座透明背景的 3D 小牧場。開一個 Claude Code session，就會從第一代 151 隻裡隨機認養一隻；
+            牠頭上的雲朵泡泡會說 agent 正在做什麼，需要你的時候會跳、會叫。
+          </p>
+          <p class="hero-links">
+            <a class="chip" href="#how">怎麼運作</a>
+            <a class="chip" href="#bubbles">泡泡圖例</a>
+            <a class="chip" href="/dex.html">看 151 隻的動作 →</a>
+          </p>
+        </div>
+
+        <figure class="demo card" aria-label="牧場即時示範">
+          <div class="demo-stage" id="demo-stage">
+            <canvas id="demo-canvas" aria-label="3D 牧場"></canvas>
+            <div class="demo-overlay" id="demo-overlay"></div>
+            <p class="demo-status" id="demo-status">牧場整理中…</p>
+          </div>
+          <figcaption class="demo-controls">
+            <div class="control-row">
+              <span class="control-label">寵物</span>
+              <div class="chips" id="demo-pets" role="group" aria-label="要操作哪一隻"></div>
+            </div>
+            <div class="control-row">
+              <span class="control-label">發生了</span>
+              <div class="chips" id="demo-events" role="group" aria-label="送一個事件給這隻">
+                <button class="chip" data-event="busy">在做事</button>
+                <button class="chip" data-event="waiting">等你確認</button>
+                <button class="chip" data-event="error">工具失敗</button>
+                <button class="chip" data-event="compacting">整理記憶</button>
+                <button class="chip" data-event="done">做完一輪</button>
+                <button class="chip" data-event="sleep">太久沒動靜</button>
+                <button class="chip" data-event="wake">叫醒</button>
+                <button class="chip" data-event="poke">摸一下</button>
+              </div>
+            </div>
+            <div class="control-row">
+              <span class="control-label">設定</span>
+              <div class="chips" role="group" aria-label="示範設定">
+                <button class="chip" id="demo-auto" aria-pressed="true">自動播放</button>
+                <button class="chip" id="demo-sound" aria-pressed="false">音效</button>
+                <button class="chip" id="demo-fight" aria-pressed="false">撞上必打</button>
+                <button class="chip" id="demo-shuffle">換一批</button>
+              </div>
+            </div>
+            <p class="demo-hint muted">用的是牧場本體的場景、寵物與泡泡程式；直接點牧場上的寶可夢也可以摸牠。</p>
+          </figcaption>
+        </figure>
+      </section>
+
+      <section class="wrap section" id="how">
+        <h2>怎麼運作</h2>
+        <p class="muted">從 Claude Code 發生一件事，到牧場上的寶可夢有反應，中間只經過本機。</p>
+        <ol class="flow">
+          <li class="card">
+            <span class="flow-step">1</span>
+            <h3>Claude Code 的 hooks</h3>
+            <p>使用者層級 <code>~/.claude/settings.json</code> 掛了 hooks：送出提示、用工具前後、要權限、整理記憶、做完一輪、session 結束都會觸發。</p>
+          </li>
+          <li class="card">
+            <span class="flow-step">2</span>
+            <h3>pet-hook.sh</h3>
+            <p>repo 的 <code>hooks/</code> 資料夾裡的小腳本，把事件 POST 到 <code>127.0.0.1:47821</code>。這個 port 一次只能給一個程式用。</p>
+          </li>
+          <li class="card">
+            <span class="flow-step">3</span>
+            <h3>Electron 主行程</h3>
+            <p>只聽本機、拒絕帶 Origin 的請求，只取安全的簡短說明。每個 <code>session_id</code> 認養一隻，存在 <code>ranch.json</code>，重開 App 還在。</p>
+          </li>
+          <li class="card">
+            <span class="flow-step">4</span>
+            <h3>three.js 牧場</h3>
+            <p>畫面這邊決定寵物怎麼動、泡泡怎麼畫、播什麼音效。模型是 GLB（glTF 2.0），骨骼動畫內嵌。</p>
+          </li>
+        </ol>
+
+        <div class="card table-card">
+          <table class="events">
+            <caption>Hook 事件 → 寵物的狀態</caption>
+            <thead>
+              <tr><th scope="col">事件</th><th scope="col">寵物</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>SessionStart</code></td><td>上線（第一次看到這個 session 就認養一隻）</td></tr>
+              <tr><td><code>UserPromptSubmit</code>、<code>PostToolUse</code></td><td>白色泡泡「思考中…」</td></tr>
+              <tr><td><code>PreToolUse</code></td><td>白色泡泡「動詞：說明」，例如「跑指令：執行型別檢查」；問你問題、計畫等你確認是黃色</td></tr>
+              <tr><td><code>PermissionRequest</code></td><td>黃色「需要你確認」＋叮咚聲，停下來面向你</td></tr>
+              <tr><td><code>PostToolUseFailure</code></td><td>紅色「○○失敗了」＋低音、播攻擊動作（按 Esc 中斷不算）</td></tr>
+              <tr><td><code>PreCompact</code></td><td>淡紫「整理記憶中…」</td></tr>
+              <tr><td><code>Stop</code></td><td>綠色「做完了！」＋上揚三音、播開心動作</td></tr>
+              <tr><td><code>SessionEnd</code></td><td>變成「下線」，<strong>寵物留著</strong>，之後會去睡覺</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="muted small">子代理不另外養寵物：子代理的事件只算「這個 session 還有動靜」（不會睡著），子代理要權限時一樣變黃。</p>
+      </section>
+
+      <section class="wrap section" id="bubbles">
+        <h2>泡泡圖例</h2>
+        <p class="muted">下面每一朵都是牧場本體的泡泡（<code>src/bubbles.ts</code> ＋ <code>src/style.css</code>），點一下會重新冒出來、播那個提醒的音效。</p>
+        <div class="legend" id="legend"></div>
+      </section>
+
+      <section class="wrap section" id="life">
+        <h2>牧場的日常</h2>
+        <div class="life">
+          <article class="card">
+            <h3>認養</h3>
+            <p>新 session 第一次有 hook，就從牧場上還沒有的品種裡隨機挑一隻（151 隻都有人養了才重複）。對應關係記在 <code>ranch.json</code>。</p>
+          </article>
+          <article class="card">
+            <h3>自由活動</h3>
+            <p>待機幾秒 → 挑個地方走過去，偶爾用跑的、偶爾原地開心一下。會繞開池塘、樹，跟別隻保持距離。agent 在忙時照樣逛，只是頭上多一朵泡泡。</p>
+          </article>
+          <article class="card">
+            <h3>睡覺</h3>
+            <p><strong>5 分鐘</strong>沒有這個 session 的 hook，有睡覺動作的寶可夢（151 隻裡 114 隻）就躺下、飄 Zzz；下一個 hook 一來就醒，先伸個懶腰再開始逛。</p>
+          </article>
+          <article class="card">
+            <h3>打架</h3>
+            <p>兩隻醒著的<strong>正面撞上</strong>時有 35% 機率開打：面對面各連續攻擊 2～3 次（每場隨機），隨機一隻贏（開心），輸的往牧場另一頭逃跑。同一對 30 秒內只擲一次骰子，整座牧場兩場架至少隔 10 秒。</p>
+          </article>
+          <article class="card">
+            <h3>會飛的</h3>
+            <p>每個動作的離地高度在開模型時各量一次，最多浮 0.3 個身高，不會飛出牧場；泡泡也跟著抬高。</p>
+          </article>
+          <article class="card">
+            <h3>滑鼠</h3>
+            <p>游標在草地上才接滑鼠，其他地方點得到後面的視窗。點寵物＝摸一下（開心＋名牌），按住草地拖曳＝搬牧場。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="wrap section" id="modes">
+        <h2>兩種模式</h2>
+        <p class="muted">從 Dock 圖示按右鍵切換，記在 <code>settings.json</code>。</p>
+        <div class="modes">
+          <article class="card mode">
+            <div class="mode-pic mode-float" aria-hidden="true"><span class="win"></span><span class="isle"></span></div>
+            <h3>置頂小牧場（預設）</h3>
+            <ul>
+              <li>透明、置頂、無邊框的小視窗，在桌面右下角</li>
+              <li>可以點寵物、拖曳搬牧場</li>
+              <li>拖到哪個螢幕就換成適合那個螢幕的大小，位置記在 <code>window.json</code></li>
+            </ul>
+          </article>
+          <article class="card mode">
+            <div class="mode-pic mode-wall" aria-hidden="true"><span class="win"></span><span class="isle"></span></div>
+            <h3>桌布模式</h3>
+            <ul>
+              <li>鋪滿選定的螢幕，在所有視窗與桌面圖示底下，透明背景看得到原本的桌布</li>
+              <li>收不到滑鼠（不能點寵物、拖曳）</li>
+              <li>「桌布放在哪個螢幕」可以選，那個螢幕拔掉就回到主螢幕</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="dock card">
+          <div class="dock-menu" role="img" aria-label="Dock 右鍵選單示意">
+            <div class="dock-item off">牧場上的寵物（3）</div>
+            <div class="dock-item sub hot">● 皮卡丘 · agent-pets<span>▸</span><div class="dock-sub"><div class="dock-item">放生…</div></div></div>
+            <div class="dock-item sub">● 小火龍 · 部落格改版<span>▸</span></div>
+            <div class="dock-item sub">○ 伊布 · 修登入 bug<span>▸</span></div>
+            <hr />
+            <div class="dock-item">全部放生…</div>
+            <hr />
+            <div class="dock-item">✓ 置頂小牧場</div>
+            <div class="dock-item">　 桌布模式</div>
+            <div class="dock-item sub">桌布放在哪個螢幕<span>▸</span></div>
+            <hr />
+            <div class="dock-item">重新掃描模型</div>
+            <div class="dock-item">打開模型資料夾</div>
+          </div>
+          <div>
+            <h3>Dock 選單</h3>
+            <p>寵物不會因為 session 結束而消失。要拿掉一隻，從 Dock 圖示右鍵找到牠，選「放生…」確認就好（桌布模式下確認框會出現在主螢幕）。想一次清空，選「全部放生…」。</p>
+            <p>同一個選單可以切換模式、選桌布的螢幕、重新掃描模型資料夾，或直接打開模型資料夾。</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="wrap section" id="models">
+        <h2>模型與授權</h2>
+        <div class="card license">
+          <p>
+            151 隻模型來自 <code>06wj/pokemon</code>（固定 commit），每個 GLB 下載後先用 <code>scripts/verify-model.mjs</code> 檢查：
+            glTF 2.0、全部內嵌、沒有外部網址、沒有不認得的擴充，才搬進模型資料夾。
+          </p>
+          <p>
+            🔴 原專案程式是 MIT，但<strong>角色模型的權利屬於原權利方，原作者明說不授予使用權</strong>。模型放在專案裡的
+            <code id="models-dir">models/</code>（.gitignore 排除），只給本機自用，不進 git、不分享、不打包進 App。
+            這個展示網站也一樣：開發伺服器直接讀那個資料夾，沒有複製任何模型或頭像。
+          </p>
+        </div>
+        <p class="cta"><a class="chip cta-chip" href="/dex.html">打開動作圖鑑，看 151 隻怎麼動 →</a></p>
+      </section>
+    </main>
+
+    <footer class="site-foot">寶可夢牧場展示網站 · 只在本機執行（<code>npm run showcase</code>）</footer>
+    <script type="module" src="./intro.ts"></script>
+  </body>
+</html>

@@ -1,0 +1,187 @@
+/* 展示網站共用樣式。介紹頁會先載牧場本體的 src/style.css（泡泡、Zzz），這裡把它對整頁的設定改回一般網頁 */
+
+:root {
+  --sky: #eaf6ff;
+  --paper: #fffdf7;
+  --ink: #2f3a33;
+  --ink-soft: #5d6b62;
+  --line: #e1e6dc;
+  --grass: #5fae4b;
+  --grass-deep: #3d8a33;
+  --grass-soft: #e3f3db;
+  --dirt: #b98a5a;
+  --accent: #f2c200;
+  --card: #ffffff;
+  --radius: 16px;
+  --shadow: 0 6px 24px rgba(48, 72, 40, 0.1);
+  font-family: -apple-system, 'PingFang TC', 'Heiti TC', 'Noto Sans TC', sans-serif;
+  color: var(--ink);
+  user-select: auto;
+}
+
+html,
+body {
+  height: auto;
+  min-height: 100%;
+  overflow: auto;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(180deg, var(--sky) 0, var(--paper) 520px) no-repeat, var(--paper);
+  line-height: 1.7;
+}
+
+a {
+  color: var(--grass-deep);
+}
+
+code {
+  font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+  font-size: 0.88em;
+  background: rgba(61, 138, 51, 0.09);
+  padding: 1px 6px;
+  border-radius: 6px;
+  overflow-wrap: anywhere;
+}
+
+/* ── 頁首 ─────────────────────────────────────── */
+
+.site-head {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 10px 24px;
+  background: rgba(255, 253, 247, 0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 17px;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.brand-mark {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%, #fff 0 22%, var(--ink) 23% 30%, transparent 31%),
+    linear-gradient(180deg, #e5534b 0 46%, var(--ink) 46% 54%, #fff 54%);
+  border: 2px solid var(--ink);
+  box-sizing: border-box;
+}
+
+.site-nav {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.site-nav a {
+  padding: 6px 14px;
+  border-radius: 999px;
+  text-decoration: none;
+  color: var(--ink-soft);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.site-nav a:hover {
+  background: var(--grass-soft);
+  color: var(--grass-deep);
+}
+
+.site-nav a[aria-current='page'] {
+  background: var(--grass);
+  color: #fff;
+}
+
+/* ── 共用元件 ─────────────────────────────────── */
+
+.wrap {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1.5px solid var(--line);
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s, transform 0.1s;
+}
+
+.chip:hover:not(:disabled) {
+  border-color: var(--grass);
+  color: var(--grass-deep);
+}
+
+.chip:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.chip[aria-pressed='true'] {
+  background: var(--grass);
+  border-color: var(--grass);
+  color: #fff;
+}
+
+.chip:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+  text-decoration: line-through;
+}
+
+.chip:focus-visible,
+.site-nav a:focus-visible,
+input:focus-visible {
+  outline: 3px solid rgba(95, 174, 75, 0.45);
+  outline-offset: 2px;
+}
+
+.muted {
+  color: var(--ink-soft);
+}
+
+.site-foot {
+  margin-top: 64px;
+  padding: 24px;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+  color: var(--ink-soft);
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .site-head {
+    padding: 10px 16px;
+  }
+  .wrap {
+    padding: 0 16px;
+  }
+}

@@ -1,0 +1,6 @@
+# Windows 的 git 預設 core.autocrlf=true，會把檔案換成 CRLF：shell 腳本、Python 與 hook 一換就跑不動（bash 讀到 \r）。
+# 原始碼一律 LF，兩邊開都一樣。
+* text=auto eol=lf
+*.png binary
+*.icns binary
+*.glb binary

@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="寶可夢牧場 打包（Windows）" type="js.build_tools.npm">
+    <package-json value="$PROJECT_DIR$/agent-pets/package.json" />
+    <command value="run" />
+    <scripts>
+      <script value="dist:win" />
+    </scripts>
+    <node-interpreter value="project" />
+    <envs />
+    <method v="2" />
+  </configuration>
+</component>

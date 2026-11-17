@@ -1,0 +1,46 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Electron 主行程的建置輸出
+dist-electron
+
+# App 打包輸出（npm run dist:mac／dist:win）
+release
+
+# Claude Code 個人設定（不進 git）
+.claude/settings.local.json
+
+# 展示網站（npm run showcase）：模型由開發伺服器直接讀 App 外的模型資料夾。
+# 🔴 模型與頭像的權利屬於原權利方，只給本機自用：就算有人在 showcase/ 裡建了連結或複製檔案，也不進 git
+showcase/models
+showcase/**/*.glb
+showcase/**/icon.png
+showcase/dist
+
+# 寶可夢模型（npm run setup:models 下載到這裡，App 讀這個資料夾）。
+# 🔴 模型的權利屬於原權利方，只給本機自用：整個資料夾、任何 GLB 都不進 git
+/models/
+*.glb
+*.gltf

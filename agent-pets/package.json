@@ -1,0 +1,32 @@
+{
+  "name": "pokemon-ranch-pets",
+  "private": true,
+  "version": "0.0.0",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "test": "node scripts/test-hooks.mjs",
+    "preview": "vite preview",
+    "setup:models": "node scripts/fetch-models.mjs",
+    "showcase": "vite --config showcase/vite.config.ts",
+    "showcase:dex": "vite --config showcase/vite.config.ts --open /dex.html",
+    "dist:mac": "npm run build && electron-builder --mac",
+    "dist:win": "npm run build && electron-builder --win",
+    "app:open": "node scripts/pet-app.mjs open",
+    "app:quit": "node scripts/pet-app.mjs quit"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "@types/three": "^0.187.0",
+    "electron": "45.0.0",
+    "electron-builder": "^26.18.0",
+    "three": "^0.187.0",
+    "typescript": "~7.0.2",
+    "vite": "^8.3.6",
+    "vite-plugin-electron": "^1.2.0"
+  },
+  "description": "寶可夢牧場桌寵（macOS／Windows）：每個 Claude Code session 認養一隻寶可夢，在桌面上的小牧場自由活動",
+  "main": "dist-electron/main.js"
+}

@@ -1,0 +1,20 @@
+# 專案排除路徑
+.DS_Store
+
+# 給 AI agent 看的工作規則與個人設定（不進 git）
+CLAUDE.md
+AGENTS.md
+.claude/
+.codex/
+.agents/
+
+# 開源前的內部待辦筆記（裡面有本機路徑）
+docs/open-source-plan.md
+
+# IDEA：個人的工作區狀態不進 git，共用的執行組態留著
+.idea/workspace.xml
+.idea/shelf/
+
+# hook 檔搬到 hooks/ 之後，舊位置留給本機既有設定用的連結
+agent-pets/scripts/codex-hook.py
+agent-pets/scripts/pet-hook.sh

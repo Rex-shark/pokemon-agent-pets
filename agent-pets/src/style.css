@@ -1,0 +1,292 @@
+/* 牧場桌寵的畫面：透明背景、3D 畫布鋪滿，上面疊一層 HTML（泡泡、名牌、Zzz） */
+
+:root {
+  /* macOS 的字型在前，Windows（微軟正黑體）、Linux 接在後面：哪台電腦有哪個就用哪個 */
+  font-family: -apple-system, 'PingFang TC', 'Heiti TC', 'Microsoft JhengHei UI', 'Microsoft JhengHei', 'Segoe UI', 'Noto Sans CJK TC', sans-serif;
+  color: #3a3a3a;
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+}
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: transparent;
+}
+
+#ranch {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+#overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+.notice {
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  max-width: 80%;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.88);
+  font-size: 12px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* 每隻寵物一個：原點在頭頂（main.ts 每格用 transform 移過去） */
+.pet-ui {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+}
+
+/* ── 雲朵泡泡 ───────────────────────────────── */
+
+.bubble {
+  --bg: #ffffff;
+  --border: #cfd8e3;
+  --ink: #34495e;
+  --lift: 0px;
+  position: absolute;
+  left: 0;
+  bottom: calc(18px + var(--lift));
+  transform: translateX(-50%);
+  width: max-content;
+  min-width: 64px;
+  max-width: 220px;
+  padding: 8px 14px 9px;
+  border-radius: 22px;
+  background: var(--bg);
+  border: 2px solid var(--border);
+  color: var(--ink);
+  font-size: 12px;
+  line-height: 1.35;
+  text-align: center;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.14);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: auto;
+  transition: opacity 0.2s, visibility 0.2s, background-color 0.25s, border-color 0.25s;
+}
+
+.bubble.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.bubble.pop {
+  animation: bubble-pop 0.35s ease-out;
+}
+
+@keyframes bubble-pop {
+  0% { transform: translateX(-50%) scale(0.7); }
+  70% { transform: translateX(-50%) scale(1.06); }
+  100% { transform: translateX(-50%) scale(1); }
+}
+
+.bubble-title {
+  font-size: 10px;
+  opacity: 0.6;
+  margin-bottom: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bubble-text {
+  font-weight: 600;
+}
+
+/* 往下指向頭頂的兩個小圓（想法雲的尾巴） */
+.tail i {
+  position: absolute;
+  left: 50%;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid var(--border);
+  transition: background-color 0.25s, border-color 0.25s;
+}
+.tail i:nth-child(1) {
+  bottom: -12px;
+  width: 10px;
+  height: 10px;
+  margin-left: -9px;
+}
+.tail i:nth-child(2) {
+  bottom: calc(-20px - var(--lift));
+  width: 6px;
+  height: 6px;
+  margin-left: -4px;
+}
+
+.bubble[data-tone='busy'] {
+  --bg: #ffffff;
+  --border: #b9cde4;
+  --ink: #2c3e50;
+}
+
+.bubble[data-tone='waiting'] {
+  --bg: #fff3b0;
+  --border: #f2c200;
+  --ink: #6b4f00;
+}
+.bubble[data-tone='waiting'].show {
+  animation: bubble-bounce 1.1s ease-in-out infinite;
+}
+
+@keyframes bubble-bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-5px); }
+}
+
+.bubble[data-tone='error'] {
+  --bg: #ffd9d6;
+  --border: #e5534b;
+  --ink: #8c1c13;
+}
+
+.bubble[data-tone='compacting'] {
+  --bg: #ece3ff;
+  --border: #a98be8;
+  --ink: #4b2a8a;
+}
+
+.bubble[data-tone='done'] {
+  --bg: #d7f7d4;
+  --border: #4cbf55;
+  --ink: #1e6b26;
+}
+
+/* ── 名牌（滑鼠移過、點到時） ─────────────────── */
+
+.tag {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, -50%);
+  padding: 2px 9px;
+  border-radius: 999px;
+  background: rgba(40, 40, 40, 0.78);
+  color: #fff;
+  font-size: 11px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.tag.show {
+  opacity: 1;
+}
+
+/* ── 睡覺的 Zzz ───────────────────────────────── */
+
+.zzz {
+  position: absolute;
+  left: 8px;
+  bottom: 0;
+  display: none;
+  font-weight: 700;
+  color: #6c7fd8;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
+}
+.zzz.show {
+  display: block;
+}
+.zzz span {
+  position: absolute;
+  bottom: 0;
+  opacity: 0;
+  animation: zzz-float 3s ease-out infinite;
+}
+.zzz span:nth-child(1) { font-size: 12px; animation-delay: 0s; }
+.zzz span:nth-child(2) { font-size: 15px; animation-delay: 1s; }
+.zzz span:nth-child(3) { font-size: 18px; animation-delay: 2s; }
+
+@keyframes zzz-float {
+  0% { opacity: 0; transform: translate(0, 0); }
+  20% { opacity: 1; }
+  100% { opacity: 0; transform: translate(18px, -34px); }
+}
+
+/* 桌布模式：視窗鋪滿整個螢幕（含 Dock 底下），提示字往上移到 Dock 上方 */
+body[data-mode='wallpaper'] .notice {
+  bottom: 14%;
+}
+
+/* ── 打架、逃跑的漫畫符號（effects.ts） ──────────────
+   原點在頭頂；--ps 是寵物在畫面上的高度，--x、--y、--size 是它的比例（y 往下為正）。 */
+
+.fx {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.fx-item {
+  position: absolute;
+  left: calc(var(--x) * var(--ps));
+  top: calc(var(--y) * var(--ps));
+  width: calc(var(--size) * var(--ps));
+  max-width: 46px;
+  min-width: 14px;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 1px 1.5px rgba(0, 0, 0, 0.25));
+}
+
+.fx-item svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* 青筋：一下一下地鼓起來 */
+.fx-anger {
+  animation: fx-throb 0.55s ease-in-out infinite;
+}
+
+@keyframes fx-throb {
+  0%, 100% { transform: translate(-50%, -50%) scale(0.85); }
+  45% { transform: translate(-50%, -50%) scale(1.18); }
+}
+
+/* 冒煙：往上飄、變大、淡掉，再從頭來 */
+.fx-smoke {
+  max-width: 64px;
+  animation: fx-puff 1.6s ease-out infinite;
+}
+
+@keyframes fx-puff {
+  0% { transform: translate(-50%, -30%) scale(0.55); opacity: 0; }
+  15% { opacity: 1; }
+  65% { opacity: 1; }
+  100% { transform: translate(-50%, -105%) scale(1.3); opacity: 0; }
+}
+
+/* 汗滴：出現、往下滑一點、晃一下 */
+.fx-sweat {
+  animation: fx-drip 0.9s ease-in-out infinite;
+}
+
+@keyframes fx-drip {
+  0% { transform: translate(-50%, -60%) rotate(-8deg); opacity: 0.6; }
+  50% { transform: translate(-50%, -35%) rotate(6deg); opacity: 1; }
+  100% { transform: translate(-50%, -60%) rotate(-8deg); opacity: 0.6; }
+}

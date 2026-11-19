@@ -83,7 +83,11 @@ npm install
 
 **2. 準備模型**
 
-模型來自 [06wj/pokemon](https://github.com/06wj/pokemon)，放進 `agent-pets/models/` 就會被讀到。要拿哪個版本、哪些檔案、怎麼檢查，見 [docs/install.md](docs/install.md#2-準備模型)。不用 151 隻都拿，只放幾隻也能跑。
+模型來自 06wj/pokemon，放進 `agent-pets/models/` 就會被讀到。
+
+> **原作者已經關閉專案**（2026-11 確認 `github.com/06wj/pokemon` 打不開）。同一個版本目前還能從它的 fork [Guardwu2015/pokemon](https://github.com/Guardwu2015/pokemon/tree/00d96f7f18894055e7f1db44fa0df6462e5e4c8a) 取得，網址要帶著後面那串 commit 編號；直接開那個 repo 的首頁看到的是 2018 年的舊版，沒有動作、不能用。這個管道不保證一直有效。
+
+要拿哪個版本、哪些檔案、怎麼檢查，見 [docs/install.md](docs/install.md#2-準備模型)。不用 151 隻都拿，只放幾隻也能跑。
 
 原專案的程式碼是 MIT，但模型不是：角色與素材屬於各自的權利方。請自己決定要不要取得，只在自己的電腦上用，不要放進 git、不要分享。
 
@@ -212,7 +216,7 @@ $env:PET_DATA_DIR="$env:TEMP\ranch-test"; $env:PET_HOOK_PORT=47899; npm run dev
 
 ## 素材與資料來源
 
-- **模型**：[06wj/pokemon](https://github.com/06wj/pokemon)。這個 repo 不包含、不散布模型，權利屬於原權利方。
+- **模型**：06wj/pokemon（原作者已關閉專案，目前改從 fork [Guardwu2015/pokemon](https://github.com/Guardwu2015/pokemon/tree/00d96f7f18894055e7f1db44fa0df6462e5e4c8a) 取得同一個版本）。這個 repo 不包含、不散布模型，權利屬於原權利方。
 - **屬性資料**：06wj/pokemon 的 `pokemonTypes.ts`（MIT）。
 - **官方身高體重**：[PokeAPI](https://pokeapi.co/) 的 CSV 資料。
 - **hook 腳本的規則**（不輸出、永遠成功結束、限時）：參考 claude-office 與 pixel-agents。

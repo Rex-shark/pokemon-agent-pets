@@ -67,7 +67,7 @@ npm run dev                             # 開發模式
 
 ## 模型
 
-- 來源：[06wj/pokemon](https://github.com/06wj/pokemon)（固定 commit `00d96f7`），第一代 151 隻，GLB（glTF 2.0，貼圖、骨骼動畫都內嵌）。
+- 來源：06wj/pokemon（固定 commit `00d96f7`；原作者已關閉專案，目前從 fork `Guardwu2015/pokemon` 用同一個 commit 取得，見 [docs/install.md](../docs/install.md#2-準備模型)），第一代 151 隻，GLB（glTF 2.0，貼圖、骨骼動畫都內嵌）。
 - 放在專案裡的 `models/<編號>/model.glb`（`.gitignore` 整個排除，任何 `*.glb` 也不進 git）。App 從自己的位置往上找專案的 `models/`，開發模式、展示網站、從 `release/` 開的打包 App 都讀這裡；環境變數 `PET_MODELS_DIR` 可以改，都找不到才用存檔目錄底下的 `models/`（`electron/species.ts` 的 `MODELS_DIR`）。
 - 牧場存檔 `ranch.json`、視窗位置 `window.json`、模式設定 `settings.json` 在存檔目錄：macOS `~/Library/Application Support/Pokemon Ranch Pets/`、Windows `%APPDATA%\Pokemon Ranch Pets\`（`electron/platform/`）。
 - 🔴 原專案的程式是 MIT，但**角色模型的權利屬於原權利方，原作者明說不授予使用權**：只給本機自用，不進 git、不分享、不打包進 App。

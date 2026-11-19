@@ -2,6 +2,22 @@
 // 2026-11-13 從 fetch-models.sh（zsh＋curl＋python3＋xxd）改寫成 Node：macOS、Windows 用同一支，只需要 Node 22 以上。
 //
 // 來源：github.com/06wj/pokemon（固定在下面的 commit，不會因為原作者之後改檔而抓到不一樣的東西）。
+//
+// 🔴 2026-11 起這支腳本「照原樣跑會全部失敗」：原作者把 06wj/pokemon 關掉了，下面 BASE 指的網址回 404。
+//    這裡刻意沒有改程式（使用者的決定：腳本不改，由要下載的人或 agent 看懂原因後自己改）。要用之前請先讀完這段：
+//
+//    1. 為什麼還抓得到：GitHub 上同一個專案的 fork 共用同一份儲存，原作者推過的那個 commit 還留在 fork 網路裡，
+//       從任何一個還在的 fork 用 commit 編號都取得到。目前確認可用的是 Guardwu2015/pokemon
+//       （2026-11 實際下載驗證過，151 隻 model.glb、icon.png 與 animatedModels.json 的內容跟原本的完全相同）。
+//    2. 要改哪裡：只改下面 BASE 那一行的帳號，把 06wj 換成 Guardwu2015；COMMIT 不要動。改完應該是
+//         https://raw.githubusercontent.com/Guardwu2015/pokemon/${COMMIT}
+//    3. 不要做的事：
+//       - 不要拿掉或換掉 COMMIT。那個 fork 自己的 master 分支是 2018 年的舊版（148 隻、沒有動作、.gltf＋.bin），這個專案不能用。
+//       - 改完還是 404 的話，代表那個 commit 已經被 GitHub 清掉、或那個 fork 也不在了。停下來告訴使用者來源失效，
+//         請他自己提供模型；不要改去抓別的版本、別的來源，或自己找檔案充數。
+//       - 一樣要先問過使用者才下載（docs/install.md 第 2 步）。
+//    4. 改完先抓一隻確認抓得到、檢查會過，再抓全部：node scripts/fetch-models.mjs 025
+//
 // 模型的角色權利屬於原權利方，原專案不授予使用權：🔴 只給本機自用、不進 git、不要分享出去。
 //
 // 安全：只下載資料檔（model.glb、icon.png、animatedModels.json），不 clone、不執行原專案的任何程式；

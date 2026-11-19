@@ -25,6 +25,8 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const MODELS_DIR = process.env.PET_MODELS_DIR || path.join(ROOT, 'models')
 /** 資料表放 repo 根目錄的 docs/（跟桌寵模組 agent-pets/ 並排） */
 const DOCS_DIR = path.join(ROOT, '..', 'docs')
+// 🔴 2026-11 起這個網址回 404：原作者把 06wj/pokemon 關掉了（原因與處理方式見 scripts/fetch-models.mjs 開頭的說明）。
+//    這裡刻意沒改；要重跑這支腳本的話，把下面的帳號 06wj 換成 Guardwu2015（commit 編號不要動），同一個檔案還取得到。
 const TYPES_URL = 'https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/src/content/pokemonTypes.ts'
 const POKEAPI_URL = 'https://raw.githubusercontent.com/PokeAPI/pokeapi/5cbeb3f3eb55a9b86da52c4869336f9d61fdd6d7/data/v2/csv/pokemon.csv'
 

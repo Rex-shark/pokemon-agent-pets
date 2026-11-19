@@ -85,7 +85,11 @@ npm install
 
 **2. Prepare the models**
 
-The models come from [06wj/pokemon](https://github.com/06wj/pokemon); anything placed in `agent-pets/models/` is picked up. For which version, which files and how to verify them, see [docs/install.md](docs/install.md#2-準備模型). You don't need all 151 — a few are enough to run.
+The models come from 06wj/pokemon; anything placed in `agent-pets/models/` is picked up.
+
+> **The original author has closed the project** (`github.com/06wj/pokemon` was confirmed unreachable in November 2026). The same version can currently still be obtained from its fork, [Guardwu2015/pokemon](https://github.com/Guardwu2015/pokemon/tree/00d96f7f18894055e7f1db44fa0df6462e5e4c8a). The URL must include the commit hash at the end: the fork's own front page shows a 2018 version with no animations, which does not work here. This route is not guaranteed to keep working.
+
+ For which version, which files and how to verify them, see [docs/install.md](docs/install.md#2-準備模型). You don't need all 151 — a few are enough to run.
 
 The original project's code is MIT, but the models are not: the characters and assets belong to their respective rights holders. Decide for yourself whether to obtain them, use them only on your own computer, and don't commit or share them.
 
@@ -214,7 +218,7 @@ $env:PET_DATA_DIR="$env:TEMP\ranch-test"; $env:PET_HOOK_PORT=47899; npm run dev
 
 ## Assets and data sources
 
-- **Models**: [06wj/pokemon](https://github.com/06wj/pokemon). This repo neither contains nor distributes models; the rights belong to their owners.
+- **Models**: 06wj/pokemon (the original author has closed the project; the same version is currently obtained from the fork [Guardwu2015/pokemon](https://github.com/Guardwu2015/pokemon/tree/00d96f7f18894055e7f1db44fa0df6462e5e4c8a)). This repo neither contains nor distributes models; the rights belong to their owners.
 - **Type data**: `pokemonTypes.ts` from 06wj/pokemon (MIT).
 - **Official heights and weights**: CSV data from [PokeAPI](https://pokeapi.co/).
 - **Hook script rules** (no output, always exit successfully, time-limited): inspired by claude-office and pixel-agents.

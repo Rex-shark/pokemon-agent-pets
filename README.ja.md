@@ -85,7 +85,11 @@ npm install
 
 **2. モデルの準備**
 
-モデルは [06wj/pokemon](https://github.com/06wj/pokemon) のもので、`agent-pets/models/` に置けば読み込まれます。どのバージョンのどのファイルを使うか、どう確認するかは [docs/install.md](docs/install.md#2-準備模型) を見てください。151 匹すべてそろえる必要はなく、数匹だけでも動きます。
+モデルは 06wj/pokemon のもので、`agent-pets/models/` に置けば読み込まれます。
+
+> **元の作者はプロジェクトを閉じました**（2026 年 11 月に `github.com/06wj/pokemon` が開けないことを確認）。同じバージョンは、今のところフォークの [Guardwu2015/pokemon](https://github.com/Guardwu2015/pokemon/tree/00d96f7f18894055e7f1db44fa0df6462e5e4c8a) から入手できます。URL の末尾にコミットのハッシュが必要です。フォークのトップページに表示されるのは 2018 年の古い版で、アニメーションがなく、ここでは使えません。この入手方法がいつまで使えるかは保証できません。
+
+どのバージョンのどのファイルを使うか、どう確認するかは [docs/install.md](docs/install.md#2-準備模型) を見てください。151 匹すべてそろえる必要はなく、数匹だけでも動きます。
 
 元のプロジェクトのコードは MIT ですが、モデルは違います。キャラクターと素材はそれぞれの権利者のものです。入手するかどうかはご自身で判断し、自分のパソコンの中だけで使い、git に入れたり共有したりしないでください。
 
@@ -214,7 +218,7 @@ $env:PET_DATA_DIR="$env:TEMP\ranch-test"; $env:PET_HOOK_PORT=47899; npm run dev
 
 ## 素材とデータの出典
 
-- **モデル**：[06wj/pokemon](https://github.com/06wj/pokemon)。このリポジトリはモデルを含まず、配布もしません。権利は各権利者にあります。
+- **モデル**：06wj/pokemon（元の作者がプロジェクトを閉じたため、現在はフォークの [Guardwu2015/pokemon](https://github.com/Guardwu2015/pokemon/tree/00d96f7f18894055e7f1db44fa0df6462e5e4c8a) から同じバージョンを入手します）。このリポジトリはモデルを含まず、配布もしません。権利は各権利者にあります。
 - **タイプのデータ**：06wj/pokemon の `pokemonTypes.ts`（MIT）。
 - **公式の身長・体重**：[PokeAPI](https://pokeapi.co/) の CSV データ。
 - **フックスクリプトのルール**（何も出力しない、必ず正常終了する、時間制限あり）：claude-office と pixel-agents を参考にしました。

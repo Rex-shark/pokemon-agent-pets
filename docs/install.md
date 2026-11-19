@@ -67,13 +67,22 @@ node node_modules/electron/install.js
 
 | 項目 | 內容 |
 |------|------|
-| 原專案 | <https://github.com/06wj/pokemon> |
+| 原專案 | `github.com/06wj/pokemon`（🔴 原作者已關閉，2026-11 確認打不開） |
+| 目前可用的來源 | 它的 fork：<https://github.com/Guardwu2015/pokemon/tree/00d96f7f18894055e7f1db44fa0df6462e5e4c8a> |
 | 固定 commit | `00d96f7f18894055e7f1db44fa0df6462e5e4c8a` |
-| 整包 ZIP | <https://github.com/06wj/pokemon/archive/00d96f7f18894055e7f1db44fa0df6462e5e4c8a.zip> |
-| 單一檔案 | `https://raw.githubusercontent.com/06wj/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/<檔案路徑>` |
+| 整包 ZIP | <https://github.com/Guardwu2015/pokemon/archive/00d96f7f18894055e7f1db44fa0df6462e5e4c8a.zip> |
+| 單一檔案 | `https://raw.githubusercontent.com/Guardwu2015/pokemon/00d96f7f18894055e7f1db44fa0df6462e5e4c8a/<檔案路徑>` |
 | 範圍 | 第一代 151 隻（`001`～`151`），全部約 450 MB |
 
-🔴 一定要用這個 commit。原專案之後的版本會轉檔貼圖、修剪模型資料，檔案跟這裡驗證過的不一樣。
+🔴 一定要用這個 commit，而且網址裡一定要帶著它。原專案之後的版本會轉檔貼圖、修剪模型資料，檔案跟這裡驗證過的不一樣。
+
+**為什麼改用 Guardwu2015/pokemon**
+
+- 原作者把 `06wj/pokemon` 關掉了，原本的網址全部失效。
+- GitHub 上同一個專案的 fork 共用同一份儲存，所以原作者推過的那個 commit 還留在 fork 網路裡，從任何一個還在的 fork 用 commit 編號都取得到。`Guardwu2015/pokemon` 是其中一個（2026-11 實際下載驗證過，151 隻的內容與原本的完全相同）。
+- 🔴 不要用那個 fork 的 `master` 分支或首頁：那是 2018 年的舊版，只有 148 隻、沒有動作、格式也不同（`.gltf`＋`.bin`），這個專案不能用。
+- 這個 commit 不在任何分支上，GitHub 之後可能清掉；那個 fork 也可能消失。網址打不開（404）時，告訴使用者來源已經失效，請他自己提供模型，不要改去抓別的版本或別的來源充數。
+- `scripts/fetch-models.mjs` 裡的網址**還是舊的**（刻意沒改），直接跑會全部失敗；要用它的話先照腳本開頭的說明改一行，見下面「選用：用附的參考腳本抓」。
 
 **要拿哪些檔案、放到哪裡**
 
@@ -104,6 +113,8 @@ agent-pets/models/
 #### 選用：用附的參考腳本抓
 
 repo 附了一支下載腳本當參考（Node 寫的，macOS、Windows 都能跑），使用者同意的話可以直接用，也可以只拿來看要抓哪些檔案、怎麼檢查。🔴 一樣要**先問過使用者**再執行。
+
+🔴 **腳本裡的來源網址還指向已經關閉的 `06wj/pokemon`，照原樣跑會全部失敗。** 這是刻意保留的：請先打開 `scripts/fetch-models.mjs`，讀開頭那段說明，理解原因後自己把 `BASE` 那一行的帳號 `06wj` 換成 `Guardwu2015`（`COMMIT` 不要動），再先抓一隻確認（`node scripts/fetch-models.mjs 025`）。改完還是 404 就停下來告訴使用者，不要換別的版本或來源。
 
 抓全部 151 隻（約 450 MB，要一段時間；可以中斷後重跑，已經有的會跳過）：
 
